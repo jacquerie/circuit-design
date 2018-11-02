@@ -1,0 +1,23 @@
+notifications:
+  email: false
+
+sudo: false
+
+language: node_js
+
+cache: npm
+
+node_js:
+  - 6
+  - 8
+  - 10
+  - 11
+
+before_install:
+  - travis_retry npm install -g grunt-cli
+
+install:
+  - travis_retry npm install
+
+script:
+  - grunt lint && grunt build

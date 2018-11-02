@@ -1,0 +1,11 @@
+# circuit-design #
+
+[![Build Status](https://travis-ci.org/jacquerie/circuit-design.svg?branch=master)](https://travis-ci.org/jacquerie/circuit-design)
+
+## Author ##
+
+Jacopo Notarstefano ([@Jaconotar](https://twitter.com/Jaconotar))
+
+## License ##
+
+MIT

@@ -1,0 +1,12 @@
+body {
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.container {
+  max-width: 600px;
+}
+
+.signature {
+  text-align: center;
+}
