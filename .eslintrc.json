@@ -7,5 +7,8 @@
   "extends": [
     "eslint:recommended",
     "google"
-  ]
+  ],
+  "globals": {
+    "d3": true
+  }
 }
