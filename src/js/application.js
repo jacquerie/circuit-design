@@ -62,16 +62,17 @@ class Game {
   }
 
   play() {
-    const links = this.currentGraph.links.map(function(link) {
+    const currentGraph = this.currentGraph;
+    const links = currentGraph.links.map(function(link) {
       return {
-        'classes': this.doesIntersect(link) ? 'link intersect' : 'link',
-        'x1': this.nodes[link.source].x,
-        'y1': this.nodes[link.source].y,
-        'x2': this.nodes[link.target].x,
-        'y2': this.nodes[link.target].y,
+        'classes': currentGraph.doesIntersect(link) ? 'link intersect' : 'link',
+        'x1': currentGraph.nodes[link.source].x,
+        'y1': currentGraph.nodes[link.source].y,
+        'x2': currentGraph.nodes[link.target].x,
+        'y2': currentGraph.nodes[link.target].y,
       };
-    }, this.currentGraph);
-    const nodes = this.currentGraph.nodes;
+    });
+    const nodes = currentGraph.nodes;
 
     this.svg.selectAll('.link')
         .data(links)
