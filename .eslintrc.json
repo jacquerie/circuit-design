@@ -10,5 +10,8 @@
   ],
   "globals": {
     "d3": true
+  },
+  "rules": {
+    "require-jsdoc": 0
   }
 }
