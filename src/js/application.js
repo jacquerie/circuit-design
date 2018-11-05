@@ -96,7 +96,7 @@ class Game {
         .data(nodes)
         .enter().append('circle')
         .attr('class', 'node')
-        .attr('r', 10)
+        .attr('r', 8)
         .attr('cx', function(node) {
           return node.x;
         })
