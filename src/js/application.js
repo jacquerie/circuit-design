@@ -53,21 +53,98 @@ class Graph {
   }
 }
 
+const LEVELS = [
+  new Graph([
+    {'source': 0, 'target': 2},
+    {'source': 0, 'target': 3},
+    {'source': 1, 'target': 2},
+    {'source': 1, 'target': 3},
+  ], [
+    {'x': 190, 'y': 180},
+    {'x': 380, 'y': 180},
+    {'x': 380, 'y': 370},
+    {'x': 190, 'y': 370},
+  ]),
+  new Graph([
+    {'source': 0, 'target': 1},
+    {'source': 1, 'target': 2},
+    {'source': 2, 'target': 4},
+    {'source': 3, 'target': 0},
+    {'source': 3, 'target': 4},
+  ], [
+    {'x': 285, 'y': 180},
+    {'x': 195, 'y': 246},
+    {'x': 229, 'y': 352},
+    {'x': 341, 'y': 352},
+    {'x': 375, 'y': 246},
+  ]),
+  new Graph([
+    {'source': 0, 'target': 2},
+    {'source': 0, 'target': 3},
+    {'source': 1, 'target': 3},
+    {'source': 1, 'target': 4},
+    {'source': 2, 'target': 5},
+    {'source': 4, 'target': 5},
+  ], [
+    {'x': 333, 'y': 193},
+    {'x': 237, 'y': 193},
+    {'x': 190, 'y': 275},
+    {'x': 238, 'y': 357},
+    {'x': 332, 'y': 357},
+    {'x': 380, 'y': 275},
+  ]),
+  new Graph([
+    {'source': 0, 'target': 1},
+    {'source': 0, 'target': 7},
+    {'source': 1, 'target': 6},
+    {'source': 1, 'target': 8},
+    {'source': 2, 'target': 3},
+    {'source': 2, 'target': 8},
+    {'source': 2, 'target': 6},
+    {'source': 3, 'target': 4},
+    {'source': 4, 'target': 5},
+    {'source': 4, 'target': 6},
+    {'source': 5, 'target': 7},
+    {'source': 6, 'target': 7},
+  ], [
+    {'x': 190, 'y': 180},
+    {'x': 285, 'y': 180},
+    {'x': 380, 'y': 180},
+    {'x': 190, 'y': 285},
+    {'x': 285, 'y': 285},
+    {'x': 380, 'y': 285},
+    {'x': 190, 'y': 380},
+    {'x': 285, 'y': 380},
+    {'x': 380, 'y': 380},
+  ]),
+  new Graph([
+    {'source': 0, 'target': 6},
+    {'source': 0, 'target': 7},
+    {'source': 1, 'target': 4},
+    {'source': 1, 'target': 7},
+    {'source': 2, 'target': 3},
+    {'source': 2, 'target': 5},
+    {'source': 3, 'target': 9},
+    {'source': 4, 'target': 6},
+    {'source': 5, 'target': 8},
+    {'source': 8, 'target': 9},
+  ], [
+    {'x': 285, 'y': 180},
+    {'x': 195, 'y': 246},
+    {'x': 229, 'y': 352},
+    {'x': 341, 'y': 352},
+    {'x': 375, 'y': 246},
+    {'x': 285, 'y': 123},
+    {'x': 140, 'y': 228},
+    {'x': 196, 'y': 398},
+    {'x': 374, 'y': 398},
+    {'x': 430, 'y': 228},
+  ]),
+];
+
 class Game {
   constructor(width, height) {
-    this.levels = [
-      new Graph([
-        {'source': 0, 'target': 2},
-        {'source': 0, 'target': 3},
-        {'source': 1, 'target': 2},
-        {'source': 1, 'target': 3},
-      ], [
-        {'x': 190, 'y': 180},
-        {'x': 380, 'y': 180},
-        {'x': 380, 'y': 370},
-        {'x': 190, 'y': 370},
-      ]),
-    ];
+    this.levels = LEVELS;
     this.svg = d3.select('svg')
         .attr('width', width)
         .attr('height', height);
