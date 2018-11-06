@@ -13,9 +13,14 @@ body {
 
 line.link {
   stroke: #212529;
-  stroke-width: 2px;
+  stroke-width: 8px;
 }
 
 line.link.intersect {
   stroke: #dc3545;
+}
+
+circle.node.selected {
+  stroke: #007bbf;
+  stroke-width: 6px;
 }

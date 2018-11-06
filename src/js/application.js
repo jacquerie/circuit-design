@@ -180,7 +180,7 @@ class Game {
         .data(currentGraph.nodes)
         .enter().append('circle')
         .attr('class', 'node')
-        .attr('r', 8)
+        .attr('r', 16)
         .attr('cx', function(node) {
           return node.x;
         })
