@@ -141,6 +141,7 @@ class Game {
                 .classed('intersect', function(link) {
                   return currentGraph.doesIntersect(link);
                 })
+                .transition()
                 .attr('x1', function(link) {
                   return currentGraph.nodes[link.source].x;
                 })
@@ -155,6 +156,7 @@ class Game {
                 });
             svg.selectAll('.node')
                 .data(currentGraph.nodes)
+                .transition()
                 .attr('cx', function(node) {
                   return node.x;
                 })
