@@ -80,37 +80,27 @@ class Game {
   play() {
     const svg = this.svg;
     const currentGraph = this.currentGraph;
-    const links = currentGraph.links.map(function(link) {
-      return {
-        'classes': currentGraph.doesIntersect(link) ? 'link intersect' : 'link',
-        'x1': currentGraph.nodes[link.source].x,
-        'y1': currentGraph.nodes[link.source].y,
-        'x2': currentGraph.nodes[link.target].x,
-        'y2': currentGraph.nodes[link.target].y,
-      };
-    });
-    const nodes = currentGraph.nodes;
 
     this.svg.selectAll('.link')
-        .data(links)
+        .data(currentGraph.links)
         .enter().append('line')
         .attr('class', function(link) {
-          return link.classes;
+          return currentGraph.doesIntersect(link) ? 'link intersect' : 'link';
         })
         .attr('x1', function(link) {
-          return link.x1;
+          return currentGraph.nodes[link.source].x;
         })
         .attr('y1', function(link) {
-          return link.y1;
+          return currentGraph.nodes[link.source].y;
         })
         .attr('x2', function(link) {
-          return link.x2;
+          return currentGraph.nodes[link.target].x;
         })
         .attr('y2', function(link) {
-          return link.y2;
+          return currentGraph.nodes[link.target].y;
         });
     this.svg.selectAll('.node')
-        .data(nodes)
+        .data(currentGraph.nodes)
         .enter().append('circle')
         .attr('class', 'node')
         .attr('r', 8)
