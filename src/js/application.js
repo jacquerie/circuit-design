@@ -158,7 +158,7 @@ class Game {
     const svg = this.svg;
     const currentGraph = this.currentGraph;
 
-    this.svg.selectAll('.link')
+    svg.selectAll('.link')
         .data(currentGraph.links)
         .enter().append('line')
         .attr('class', function(link) {
@@ -176,7 +176,7 @@ class Game {
         .attr('y2', function(link) {
           return currentGraph.nodes[link.target].y;
         });
-    this.svg.selectAll('.node')
+    svg.selectAll('.node')
         .data(currentGraph.nodes)
         .enter().append('circle')
         .attr('class', 'node')
