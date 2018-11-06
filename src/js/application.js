@@ -35,6 +35,22 @@ class Graph {
 
     return 0 < s && s < 1 && 0 < t && t < 1;
   }
+
+  swap(node1, node2) {
+    var i, j; // eslint-disable-line no-var, one-var
+    for (let k = 0; k < this.nodes.length; k++) {
+      const node = this.nodes[k];
+      if (node.x === node1.x && node.y === node1.y) {
+        i = k;
+      } else if (node.x === node2.x && node.y === node2.y) {
+        j = k;
+      }
+    }
+
+    const nodes = this.nodes.slice();
+    [nodes[i], nodes[j]] = [nodes[j], nodes[i]];
+    this.nodes = nodes;
+  }
 }
 
 class Game {
@@ -62,6 +78,7 @@ class Game {
   }
 
   play() {
+    const svg = this.svg;
     const currentGraph = this.currentGraph;
     const links = currentGraph.links.map(function(link) {
       return {
@@ -102,6 +119,59 @@ class Game {
         })
         .attr('cy', function(node) {
           return node.y;
+        })
+        .on('click', function(node, i, nodes) {
+          // eslint-disable-next-line no-invalid-this
+          d3.select(this).classed('selected', true);
+
+          const selectedNodes = [];
+          for (let j = 0; j < nodes.length; j++) {
+            if (d3.select(nodes[j]).classed('selected')) {
+              selectedNodes.push(nodes[j]);
+            }
+          }
+
+          if (selectedNodes.length >= 2) {
+            const firstNode = d3.select(selectedNodes[0]);
+            const secondNode = d3.select(selectedNodes[1]);
+
+            firstNode.classed('selected', false);
+            secondNode.classed('selected', false);
+
+            currentGraph.swap({
+              'x': parseInt(firstNode.attr('cx')),
+              'y': parseInt(firstNode.attr('cy')),
+            }, {
+              'x': parseInt(secondNode.attr('cx')),
+              'y': parseInt(secondNode.attr('cy')),
+            });
+
+            svg.selectAll('.link')
+                .data(currentGraph.links)
+                .classed('intersect', function(link) {
+                  return currentGraph.doesIntersect(link);
+                })
+                .attr('x1', function(link) {
+                  return currentGraph.nodes[link.source].x;
+                })
+                .attr('y1', function(link) {
+                  return currentGraph.nodes[link.source].y;
+                })
+                .attr('x2', function(link) {
+                  return currentGraph.nodes[link.target].x;
+                })
+                .attr('y2', function(link) {
+                  return currentGraph.nodes[link.target].y;
+                });
+            svg.selectAll('.node')
+                .data(currentGraph.nodes)
+                .attr('cx', function(node) {
+                  return node.x;
+                })
+                .attr('cy', function(node) {
+                  return node.y;
+                });
+          }
         });
   }
 }
