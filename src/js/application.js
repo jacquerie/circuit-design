@@ -188,8 +188,10 @@ class Game {
           return node.y;
         })
         .on('click', function(node, i, nodes) {
-          // eslint-disable-next-line no-invalid-this
-          d3.select(this).classed('selected', true);
+          /* eslint-disable no-invalid-this */
+          d3.select(this).classed(
+              'selected', !d3.select(this).classed('selected'));
+          /* eslint-enable no-invalid-this */
 
           const selectedNodes = [];
           for (let j = 0; j < nodes.length; j++) {
