@@ -20,6 +20,7 @@ line.link.intersect {
   stroke: #dc3545;
 }
 
+/* uncss:ignore */
 circle.node.selected {
   stroke: #007bbf;
   stroke-width: 6px;
