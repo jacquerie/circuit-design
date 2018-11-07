@@ -309,8 +309,9 @@ class Game {
     svg.selectAll('.link')
         .data(currentGraph.links)
         .enter().append('line')
-        .attr('class', function(link) {
-          return currentGraph.doesIntersect(link) ? 'link intersect' : 'link';
+        .classed('link', true)
+        .classed('intersect', function(link) {
+          return currentGraph.doesIntersect(link);
         })
         .attr('x1', function(link) {
           return currentGraph.nodes[link.source].x;
@@ -327,7 +328,7 @@ class Game {
     svg.selectAll('.node')
         .data(currentGraph.nodes)
         .enter().append('circle')
-        .attr('class', 'node')
+        .classed('node', true)
         .attr('r', 16)
         .attr('cx', function(node) {
           return node.x;
