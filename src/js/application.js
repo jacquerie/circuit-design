@@ -336,18 +336,13 @@ class Game {
         .attr('cy', function(node) {
           return node.y;
         })
-        .on('click', function(node, i, nodes) {
+        .on('click', function() {
           /* eslint-disable no-invalid-this */
           d3.select(this).classed(
               'selected', !d3.select(this).classed('selected'));
           /* eslint-enable no-invalid-this */
 
-          const selectedNodes = [];
-          for (let j = 0; j < nodes.length; j++) {
-            if (d3.select(nodes[j]).classed('selected')) {
-              selectedNodes.push(nodes[j]);
-            }
-          }
+          const selectedNodes = d3.selectAll('.node.selected').nodes();
 
           if (selectedNodes.length >= 2) {
             const firstNode = d3.select(selectedNodes[0]);
