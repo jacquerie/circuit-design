@@ -358,35 +358,35 @@ class Game {
               'x': parseInt(secondNode.attr('cx')),
               'y': parseInt(secondNode.attr('cy')),
             });
-
-            svg.selectAll('.link')
-                .data(currentGraph.links)
-                .classed('intersect', function(link) {
-                  return currentGraph.doesIntersect(link);
-                })
-                .transition()
-                .attr('x1', function(link) {
-                  return currentGraph.nodes[link.source].x;
-                })
-                .attr('y1', function(link) {
-                  return currentGraph.nodes[link.source].y;
-                })
-                .attr('x2', function(link) {
-                  return currentGraph.nodes[link.target].x;
-                })
-                .attr('y2', function(link) {
-                  return currentGraph.nodes[link.target].y;
-                });
-            svg.selectAll('.node')
-                .data(currentGraph.nodes)
-                .transition()
-                .attr('cx', function(node) {
-                  return node.x;
-                })
-                .attr('cy', function(node) {
-                  return node.y;
-                });
           }
+
+          svg.selectAll('.link')
+              .data(currentGraph.links)
+              .classed('intersect', function(link) {
+                return currentGraph.doesIntersect(link);
+              })
+              .transition()
+              .attr('x1', function(link) {
+                return currentGraph.nodes[link.source].x;
+              })
+              .attr('y1', function(link) {
+                return currentGraph.nodes[link.source].y;
+              })
+              .attr('x2', function(link) {
+                return currentGraph.nodes[link.target].x;
+              })
+              .attr('y2', function(link) {
+                return currentGraph.nodes[link.target].y;
+              });
+          svg.selectAll('.node')
+              .data(currentGraph.nodes)
+              .transition()
+              .attr('cx', function(node) {
+                return node.x;
+              })
+              .attr('cy', function(node) {
+                return node.y;
+              });
         });
   }
 }
