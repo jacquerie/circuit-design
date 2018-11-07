@@ -53,7 +53,7 @@ class Graph {
   }
 }
 
-const LEVELS = [
+const GRAPHS = [
   new Graph([
     {'source': 0, 'target': 2},
     {'source': 0, 'target': 3},
@@ -292,13 +292,13 @@ const LEVELS = [
 
 class Game {
   constructor(width, height) {
-    this.levels = LEVELS;
+    this.graphs = GRAPHS;
     this.svg = d3.select('svg')
         .attr('width', width)
         .attr('height', height);
 
     this.currentLevel = 0;
-    this.currentGraph = this.levels[this.currentLevel];
+    this.currentGraph = this.graphs[this.currentLevel];
     this.play();
   }
 
