@@ -313,23 +313,40 @@ class Game {
   draw() {
     const that = this;
 
-    const links = that.svg.selectAll('.link')
+    let links = that.svg.selectAll('.link')
         .data(that.currentGraph.links, function(link) {
           return that.currentLinkId++;
         });
-    const nodes = that.svg.selectAll('.node')
+    let nodes = that.svg.selectAll('.node')
         .data(that.currentGraph.nodes, function(node) {
           return that.currentNodeId++;
         });
 
-    links.exit().remove();
-    nodes.exit().remove();
+    links.exit()
+        .transition()
+        .delay(1000)
+        .remove();
+    nodes.exit()
+        .transition()
+        .delay(1000)
+        .remove();
 
-    links.enter().append('line')
+    links = links.enter().append('line')
         .classed('link', true)
         .classed('intersect', function(link) {
           return that.currentGraph.doesIntersect(link);
         })
+        .attr('x1', 285)
+        .attr('y1', 275)
+        .attr('x2', 285)
+        .attr('y2', 275);
+    nodes = nodes.enter().append('circle')
+        .classed('node', true)
+        .attr('cx', 285)
+        .attr('cy', 275);
+
+    links.transition()
+        .delay(this.currentLevel === 1 ? 0 : 1000)
         .attr('x1', function(link) {
           return that.currentGraph.nodes[link.source].x;
         })
@@ -342,73 +359,89 @@ class Game {
         .attr('y2', function(link) {
           return that.currentGraph.nodes[link.target].y;
         });
-    nodes.enter().append('circle')
-        .classed('node', true)
+    nodes.transition()
+        .delay(this.currentLevel === 1 ? 0 : 1000)
         .attr('r', 16)
         .attr('cx', function(node) {
           return node.x;
         })
         .attr('cy', function(node) {
           return node.y;
-        })
-        .on('click', function() {
-          /* eslint-disable no-invalid-this */
-          d3.select(this).classed(
-              'selected', !d3.select(this).classed('selected'));
-          /* eslint-enable no-invalid-this */
-
-          const selectedNodes = d3.selectAll('.node.selected').nodes();
-
-          if (selectedNodes.length >= 2) {
-            const firstNode = d3.select(selectedNodes[0]);
-            const secondNode = d3.select(selectedNodes[1]);
-
-            firstNode.classed('selected', false);
-            secondNode.classed('selected', false);
-
-            that.currentGraph.swap({
-              'x': parseInt(firstNode.attr('cx')),
-              'y': parseInt(firstNode.attr('cy')),
-            }, {
-              'x': parseInt(secondNode.attr('cx')),
-              'y': parseInt(secondNode.attr('cy')),
-            });
-          }
-
-          that.svg.selectAll('.link')
-              .data(that.currentGraph.links)
-              .classed('intersect', function(link) {
-                return that.currentGraph.doesIntersect(link);
-              })
-              .transition()
-              .attr('x1', function(link) {
-                return that.currentGraph.nodes[link.source].x;
-              })
-              .attr('y1', function(link) {
-                return that.currentGraph.nodes[link.source].y;
-              })
-              .attr('x2', function(link) {
-                return that.currentGraph.nodes[link.target].x;
-              })
-              .attr('y2', function(link) {
-                return that.currentGraph.nodes[link.target].y;
-              });
-          that.svg.selectAll('.node')
-              .data(that.currentGraph.nodes)
-              .transition()
-              .attr('cx', function(node) {
-                return node.x;
-              })
-              .attr('cy', function(node) {
-                return node.y;
-              });
-
-          const intersectLinks = d3.selectAll('.link.intersect').nodes();
-
-          if (intersectLinks.length === 0) {
-            that.play();
-          }
         });
+
+    nodes.on('click', function() {
+      /* eslint-disable no-invalid-this */
+      d3.select(this).classed(
+          'selected', !d3.select(this).classed('selected'));
+      /* eslint-enable no-invalid-this */
+
+      const selectedNodes = d3.selectAll('.node.selected').nodes();
+
+      if (selectedNodes.length >= 2) {
+        const firstNode = d3.select(selectedNodes[0]);
+        const secondNode = d3.select(selectedNodes[1]);
+
+        firstNode.classed('selected', false);
+        secondNode.classed('selected', false);
+
+        that.currentGraph.swap({
+          'x': parseInt(firstNode.attr('cx')),
+          'y': parseInt(firstNode.attr('cy')),
+        }, {
+          'x': parseInt(secondNode.attr('cx')),
+          'y': parseInt(secondNode.attr('cy')),
+        });
+      }
+
+      that.svg.selectAll('.link')
+          .data(that.currentGraph.links)
+          .classed('intersect', function(link) {
+            return that.currentGraph.doesIntersect(link);
+          })
+          .transition()
+          .attr('x1', function(link) {
+            return that.currentGraph.nodes[link.source].x;
+          })
+          .attr('y1', function(link) {
+            return that.currentGraph.nodes[link.source].y;
+          })
+          .attr('x2', function(link) {
+            return that.currentGraph.nodes[link.target].x;
+          })
+          .attr('y2', function(link) {
+            return that.currentGraph.nodes[link.target].y;
+          });
+      that.svg.selectAll('.node')
+          .data(that.currentGraph.nodes)
+          .transition()
+          .attr('cx', function(node) {
+            return node.x;
+          })
+          .attr('cy', function(node) {
+            return node.y;
+          });
+
+      const intersectLinks = d3.selectAll('.link.intersect').nodes();
+
+      if (intersectLinks.length === 0) {
+        that.svg.selectAll('.link')
+            .transition()
+            .delay(500)
+            .duration(500)
+            .attr('x1', 285)
+            .attr('y1', 275)
+            .attr('x2', 285)
+            .attr('y2', 275);
+        that.svg.selectAll('.node')
+            .transition()
+            .delay(500)
+            .duration(500)
+            .attr('r', 0)
+            .attr('cx', 285)
+            .attr('cy', 275);
+        that.play();
+      }
+    });
   }
 }
 
