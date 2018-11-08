@@ -298,21 +298,34 @@ class Game {
         .attr('height', height);
 
     this.currentLevel = 0;
+    this.currentLinkId = 0;
+    this.currentNodeId = 0;
 
     this.play();
   }
 
   play() {
     this.currentGraph = this.graphs[this.currentLevel];
+    this.currentLevel++;
     this.draw();
   }
 
   draw() {
     const that = this;
 
-    that.svg.selectAll('.link')
-        .data(that.currentGraph.links)
-        .enter().append('line')
+    const links = that.svg.selectAll('.link')
+        .data(that.currentGraph.links, function(link) {
+          return that.currentLinkId++;
+        });
+    const nodes = that.svg.selectAll('.node')
+        .data(that.currentGraph.nodes, function(node) {
+          return that.currentNodeId++;
+        });
+
+    links.exit().remove();
+    nodes.exit().remove();
+
+    links.enter().append('line')
         .classed('link', true)
         .classed('intersect', function(link) {
           return that.currentGraph.doesIntersect(link);
@@ -329,9 +342,7 @@ class Game {
         .attr('y2', function(link) {
           return that.currentGraph.nodes[link.target].y;
         });
-    that.svg.selectAll('.node')
-        .data(that.currentGraph.nodes)
-        .enter().append('circle')
+    nodes.enter().append('circle')
         .classed('node', true)
         .attr('r', 16)
         .attr('cx', function(node) {
@@ -391,6 +402,12 @@ class Game {
               .attr('cy', function(node) {
                 return node.y;
               });
+
+          const intersectLinks = d3.selectAll('.link.intersect').nodes();
+
+          if (intersectLinks.length === 0) {
+            that.play();
+          }
         });
   }
 }
