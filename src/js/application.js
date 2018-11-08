@@ -299,10 +299,10 @@ class Game {
 
     this.currentLevel = 0;
     this.currentGraph = this.graphs[this.currentLevel];
-    this.play();
+    this.draw();
   }
 
-  play() {
+  draw() {
     const that = this;
 
     that.svg.selectAll('.link')
