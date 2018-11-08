@@ -292,10 +292,13 @@ const GRAPHS = [
 
 class Game {
   constructor(width, height) {
+    this.width = width;
+    this.height = height;
+
     this.graphs = GRAPHS;
     this.svg = d3.select('svg')
-        .attr('width', width)
-        .attr('height', height);
+        .attr('width', this.width)
+        .attr('height', this.height);
 
     this.currentLevel = 0;
     this.currentLinkId = 0;
@@ -336,14 +339,14 @@ class Game {
         .classed('intersect', function(link) {
           return that.currentGraph.doesIntersect(link);
         })
-        .attr('x1', 285)
-        .attr('y1', 275)
-        .attr('x2', 285)
-        .attr('y2', 275);
+        .attr('x1', that.width / 2)
+        .attr('y1', that.height / 2)
+        .attr('x2', that.width / 2)
+        .attr('y2', that.height / 2);
     nodes = nodes.enter().append('circle')
         .classed('node', true)
-        .attr('cx', 285)
-        .attr('cy', 275);
+        .attr('cx', that.width / 2)
+        .attr('cy', that.height / 2);
 
     links.transition()
         .delay(this.currentLevel === 1 ? 0 : 1000)
@@ -428,17 +431,17 @@ class Game {
             .transition()
             .delay(500)
             .duration(500)
-            .attr('x1', 285)
-            .attr('y1', 275)
-            .attr('x2', 285)
-            .attr('y2', 275);
+            .attr('x1', that.width / 2)
+            .attr('y1', that.height / 2)
+            .attr('x2', that.width / 2)
+            .attr('y2', that.height / 2);
         that.svg.selectAll('.node')
             .transition()
             .delay(500)
             .duration(500)
             .attr('r', 0)
-            .attr('cx', 285)
-            .attr('cy', 275);
+            .attr('cx', that.width / 2)
+            .attr('cy', that.height / 2);
         that.play();
       }
     });
