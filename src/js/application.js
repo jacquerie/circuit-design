@@ -298,6 +298,11 @@ class Game {
         .attr('height', height);
 
     this.currentLevel = 0;
+
+    this.play();
+  }
+
+  play() {
     this.currentGraph = this.graphs[this.currentLevel];
     this.draw();
   }
