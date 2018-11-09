@@ -2,6 +2,13 @@
 
 [![Build Status](https://travis-ci.org/jacquerie/circuit-design.svg?branch=master)](https://travis-ci.org/jacquerie/circuit-design)
 
+## About ##
+
+Your laboratory partner made a mess while designing the circuit boards for your
+experiment! Help them fix the issue by making sure that no connection crosses
+any other. Note that the machine that you're using is quite limited, and only
+allows you to swap the position of two board components by clicking on them.
+
 ## Author ##
 
 Jacopo Notarstefano ([@Jaconotar](https://twitter.com/Jaconotar))
