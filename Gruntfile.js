@@ -1,5 +1,24 @@
 module.exports = function(grunt) {
   grunt.initConfig({
+    copy: {
+      dist: {
+        files: [
+          {
+            expand: true,
+            flatten: true,
+            src: 'src/img/**/*.png',
+            dest: 'dist/img/',
+          },
+          {
+            expand: true,
+            flatten: true,
+            src: 'src/favicon.ico',
+            dest: 'dist/',
+          },
+        ],
+      },
+    },
+
     cssmin: {
       dist: {
         files: {
@@ -69,6 +88,7 @@ module.exports = function(grunt) {
     },
   });
 
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.loadNpmTasks('grunt-contrib-uglify-es');
@@ -83,6 +103,7 @@ module.exports = function(grunt) {
     'cssmin',
     'processhtml',
     'htmlmin',
+    'copy',
   ]);
 
   grunt.registerTask('lint', [
