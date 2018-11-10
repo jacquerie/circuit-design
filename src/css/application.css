@@ -20,8 +20,15 @@ line.link.intersect {
   stroke: #dc3545;
 }
 
+circle.node {
+  fill: #212529;
+}
+
+circle.node:hover {
+  fill: #17a2b8;
+}
+
 /* uncss:ignore */
 circle.node.selected {
-  stroke: #007bbf;
-  stroke-width: 6px;
+  fill: #007bbf;
 }
