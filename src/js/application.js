@@ -427,6 +427,9 @@ class Game {
       const intersectLinks = d3.selectAll('.link.intersect').nodes();
 
       if (intersectLinks.length === 0) {
+        that.svg.selectAll('.node')
+            .on('click', null);
+
         that.svg.selectAll('.link')
             .transition()
             .delay(500)
