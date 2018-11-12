@@ -306,9 +306,23 @@ class Game {
   }
 
   play() {
-    this.currentGraph = this.graphs[this.currentLevel];
-    this.currentLevel++;
-    this.draw();
+    if (this.currentLevel === 10) {
+      this.end();
+    } else {
+      this.currentGraph = this.graphs[this.currentLevel];
+      this.currentLevel++;
+      this.draw();
+    }
+  }
+
+  end() {
+    setTimeout(function() {
+      alert(`
+        Congratulations! You solved this puzzle.
+        Please email any comments or suggestions
+        to jacopo.notarstefano [at] gmail.com
+      `);
+    }, 1000);
   }
 
   draw() {
