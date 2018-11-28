@@ -26,6 +26,8 @@ body {
 
 .share a img {
   background-color: #212529;
+  width: 63px;
+  height: 63px;
 }
 
 .signature {
