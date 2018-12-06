@@ -357,6 +357,7 @@ class Game {
         .attr('y2', that.height / 2);
     nodes = nodes.enter().append('circle')
         .classed('node', true)
+        .attr('r', 0)
         .attr('cx', that.width / 2)
         .attr('cy', that.height / 2);
 
