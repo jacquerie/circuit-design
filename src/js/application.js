@@ -301,7 +301,7 @@ class Game {
     this.currentLevel = 0;
     this.currentLinkId = 0;
     this.currentNodeId = 0;
-
+    this.historyOfSwappedNodes = [];
     this.play();
   }
 
@@ -312,6 +312,7 @@ class Game {
       this.currentGraph = this.graphs[this.currentLevel];
       this.currentLevel++;
       this.draw();
+      this.historyOfSwappedNodes.length = 0;
     }
   }
 
@@ -323,6 +324,60 @@ class Game {
         to jacopo.notarstefano [at] gmail.com
       `);
     }, 1000);
+  }
+
+  undoLastMove() {
+    const lastPairOfSwappedNodes = this.historyOfSwappedNodes.pop();
+    if (lastPairOfSwappedNodes) {
+      const firstNode = lastPairOfSwappedNodes.node1;
+      const secondNode = lastPairOfSwappedNodes.node2;
+      this.swapNodesAndLinks(firstNode, secondNode);
+    } else {
+      return;
+    }
+  }
+
+  swapNodesAndLinks(firstNode = null, secondNode = null) {
+    const that = this;
+    if (firstNode && secondNode) {
+      that.currentGraph.swap({
+        'x': parseInt(firstNode.attr('cx')),
+        'y': parseInt(firstNode.attr('cy')),
+      }, {
+        'x': parseInt(secondNode.attr('cx')),
+        'y': parseInt(secondNode.attr('cy')),
+      });
+      that.svg.selectAll('.link')
+          .data(that.currentGraph.links)
+          .classed('intersect', function(link) {
+            return that.currentGraph.doesIntersect(link);
+          })
+          .transition()
+          .attr('x1', function(link) {
+            return that.currentGraph.nodes[link.source].x;
+          })
+          .attr('y1', function(link) {
+            return that.currentGraph.nodes[link.source].y;
+          })
+          .attr('x2', function(link) {
+            return that.currentGraph.nodes[link.target].x;
+          })
+          .attr('y2', function(link) {
+            return that.currentGraph.nodes[link.target].y;
+          });
+      that.svg.selectAll('.node')
+          .data(that.currentGraph.nodes)
+          .transition()
+          .attr('cx', function(node) {
+            return node.x;
+          })
+          .attr('cy', function(node) {
+            return node.y;
+          });
+    } else {
+      // throw an error maybe?
+      return;
+    }
   }
 
   draw() {
@@ -392,53 +447,21 @@ class Game {
       /* eslint-enable no-invalid-this */
 
       const selectedNodes = d3.selectAll('.node.selected').nodes();
-
       if (selectedNodes.length >= 2) {
         const firstNode = d3.select(selectedNodes[0]);
         const secondNode = d3.select(selectedNodes[1]);
 
+        that.historyOfSwappedNodes.push({
+          node1: firstNode,
+          node2: secondNode,
+        });
+
         firstNode.classed('selected', false);
         secondNode.classed('selected', false);
-
-        that.currentGraph.swap({
-          'x': parseInt(firstNode.attr('cx')),
-          'y': parseInt(firstNode.attr('cy')),
-        }, {
-          'x': parseInt(secondNode.attr('cx')),
-          'y': parseInt(secondNode.attr('cy')),
-        });
+        that.swapNodesAndLinks(firstNode, secondNode);
       }
 
-      that.svg.selectAll('.link')
-          .data(that.currentGraph.links)
-          .classed('intersect', function(link) {
-            return that.currentGraph.doesIntersect(link);
-          })
-          .transition()
-          .attr('x1', function(link) {
-            return that.currentGraph.nodes[link.source].x;
-          })
-          .attr('y1', function(link) {
-            return that.currentGraph.nodes[link.source].y;
-          })
-          .attr('x2', function(link) {
-            return that.currentGraph.nodes[link.target].x;
-          })
-          .attr('y2', function(link) {
-            return that.currentGraph.nodes[link.target].y;
-          });
-      that.svg.selectAll('.node')
-          .data(that.currentGraph.nodes)
-          .transition()
-          .attr('cx', function(node) {
-            return node.x;
-          })
-          .attr('cy', function(node) {
-            return node.y;
-          });
-
       const intersectLinks = d3.selectAll('.link.intersect').nodes();
-
       if (intersectLinks.length === 0) {
         that.svg.selectAll('.node')
             .on('click', null);
@@ -464,4 +487,6 @@ class Game {
   }
 }
 
-new Game(570, 550);
+const currentGame = new Game(570, 550);
+document.getElementsByClassName('undoButton')[0]
+    .addEventListener('click', currentGame.undoLastMove.bind(currentGame));
